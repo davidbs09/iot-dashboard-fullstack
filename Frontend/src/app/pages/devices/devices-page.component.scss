@@ -1,0 +1,381 @@
+// Estilos para a página principal de dispositivos IoT
+// Layout responsivo e profissional
+
+.devices-page-container {
+  min-height: 100vh;
+  background: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+}
+
+// Header da página
+.page-header {
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-bottom: 24px;
+  border-bottom: 1px solid #dee2e6;
+
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 24px;
+      text-align: center;
+    }
+  }
+
+  .title-section {
+    flex: 1;
+
+    h1 {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 0 0 8px 0;
+      font-size: 28px;
+      font-weight: 600;
+      color: #495057;
+
+      @media (max-width: 768px) {
+        font-size: 24px;
+        justify-content: center;
+      }
+
+      mat-icon {
+        font-size: 32px;
+        width: 32px;
+        height: 32px;
+        color: #007bff;
+
+        @media (max-width: 768px) {
+          font-size: 28px;
+          width: 28px;
+          height: 28px;
+        }
+      }
+    }
+
+    p {
+      margin: 0;
+      color: #6c757d;
+      font-size: 16px;
+      line-height: 1.5;
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .header-stats {
+    display: flex;
+    gap: 16px;
+
+    @media (max-width: 768px) {
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  }
+}
+
+// Cards de estatísticas
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border-left: 4px solid #007bff;
+  min-width: 120px;
+  border: 1px solid #e9ecef;
+
+  @media (max-width: 768px) {
+    min-width: 100px;
+    padding: 12px 16px;
+  }
+
+  mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    color: #007bff;
+  }
+
+  .stat-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .stat-number {
+      font-size: 18px;
+      font-weight: 600;
+      color: #495057;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #6c757d;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+  }
+
+  // Variações por tipo
+  &.online {
+    border-left-color: #28a745;
+
+    mat-icon {
+      color: #28a745;
+    }
+  }
+
+  &.offline {
+    border-left-color: #dc3545;
+
+    mat-icon {
+      color: #dc3545;
+    }
+  }
+
+  // Hover effect
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: all 0.2s ease;
+  }
+}
+
+// Conteúdo principal
+.main-content {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+}
+
+// Footer da página
+.page-footer {
+  margin-top: 48px;
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .company-info {
+      color: #333;
+      font-size: 14px;
+
+      strong {
+        color: #1976d2;
+        font-weight: 600;
+      }
+    }
+
+    .phase-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: #666;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      mat-chip {
+        font-size: 11px;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Animações gerais
+* {
+  transition: all 0.2s ease;
+}
+
+// Responsividade adicional
+@media (max-width: 480px) {
+  .devices-page-container {
+    padding: 0;
+  }
+
+  .page-header .header-content {
+    padding: 24px 16px;
+  }
+
+  .main-content {
+    padding: 0 16px;
+  }
+
+  .page-footer .footer-content {
+    padding: 16px;
+  }
+
+  .stat-card {
+    min-width: 90px;
+    padding: 10px 12px;
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .stat-content {
+      .stat-number {
+        font-size: 16px;
+      }
+
+      .stat-label {
+        font-size: 11px;
+      }
+    }
+  }
+}
+
+// Melhorias de acessibilidade
+.stat-card:focus,
+button:focus {
+  outline: 2px solid #1976d2;
+  outline-offset: 2px;
+}
+
+// Estilo para loading states (para futuro uso)
+.loading-placeholder {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// ==================================================
+// FOOTER ELEGANTE PARA DISPOSITIVOS
+// ==================================================
+
+.devices-footer {
+  margin: 40px 20px 20px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 24px 32px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  color: #2c3e50;
+
+  i {
+    color: #28a745;
+    font-size: 20px;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.tech-info {
+  font-size: 14px;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.devices-counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #007bff;
+  
+  i {
+    color: #28a745;
+  }
+}
+
+.build-info {
+  font-size: 12px;
+  color: #8e9ba8;
+}
+
+// Responsivo para o footer
+@media (max-width: 768px) {
+  .devices-footer {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .footer-right {
+    align-items: center;
+  }
+
+  .company-info {
+    justify-content: center;
+  }
+}

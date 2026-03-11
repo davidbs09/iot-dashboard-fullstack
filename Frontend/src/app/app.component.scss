@@ -1,0 +1,149 @@
+// ==================================================
+// APP COMPONENT - LAYOUT PRINCIPAL
+// ==================================================
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+// ==================================================
+// NAVEGAÇÃO PRINCIPAL
+// ==================================================
+
+.main-navigation {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 0 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+
+  i {
+    font-size: 24px;
+    color: #ffd700;
+  }
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 14px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  &.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  i {
+    font-size: 16px;
+  }
+}
+
+// ==================================================
+// CONTEÚDO PRINCIPAL
+// ==================================================
+
+.main-content {
+  flex: 1;
+  overflow-x: hidden;
+}
+
+// ==================================================
+// RESPONSIVIDADE
+// ==================================================
+
+@media (max-width: 768px) {
+  .main-navigation {
+    padding: 0 16px;
+    height: 60px;
+  }
+
+  .nav-brand {
+    font-size: 18px;
+
+    i {
+      font-size: 20px;
+    }
+  }
+
+  .nav-links {
+    gap: 4px;
+  }
+
+  .nav-link {
+    padding: 10px 16px;
+    font-size: 13px;
+
+    span {
+      display: none;
+    }
+
+    i {
+      font-size: 18px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .main-navigation {
+    padding: 0 12px;
+  }
+
+  .nav-brand span {
+    display: none;
+  }
+}
+
+// ==================================================
+// ANIMAÇÕES
+// ==================================================
+
+.main-navigation {
+  animation: slideDown 0.6s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

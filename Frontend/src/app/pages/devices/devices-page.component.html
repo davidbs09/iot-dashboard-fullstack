@@ -1,0 +1,75 @@
+<!-- Container principal da página de dispositivos -->
+<div class="devices-page-container">
+  
+  <!-- Header da página -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="title-section">
+        <h1>
+          <mat-icon>dashboard</mat-icon>
+          Dashboard IoT
+        </h1>
+        <p>Gerencie todos os seus dispositivos IoT de forma centralizada</p>
+      </div>
+      
+      <div class="header-stats">
+        <!-- Cards de estatísticas rápidas -->
+        <div class="stat-card">
+          <mat-icon>devices</mat-icon>
+          <div class="stat-content">
+            <span class="stat-number">{{ isLoadingStats ? '--' : totalDevices }}</span>
+            <span class="stat-label">Total</span>
+          </div>
+        </div>
+        
+        <div class="stat-card online">
+          <mat-icon>wifi</mat-icon>
+          <div class="stat-content">
+            <span class="stat-number">{{ isLoadingStats ? '--' : onlineDevices }}</span>
+            <span class="stat-label">Online</span>
+          </div>
+        </div>
+        
+        <div class="stat-card offline">
+          <mat-icon>wifi_off</mat-icon>
+          <div class="stat-content">
+            <span class="stat-number">{{ isLoadingStats ? '--' : offlineDevices }}</span>
+            <span class="stat-label">Offline</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <div class="main-content">
+    <!-- Componente de listagem de dispositivos -->
+    <app-device-list (deviceListChanged)="onDeviceListChanged()"></app-device-list>
+  </div>
+
+</div>
+
+<!-- Footer Elegante -->
+<footer class="devices-footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <div class="company-info">
+        <i class="fas fa-network-wired"></i>
+  <span>Gestão de Dispositivos IoT</span>
+      </div>
+      <div class="tech-info">
+        Gerenciamento Centralizado de Dispositivos
+      </div>
+    </div>
+    
+    <div class="footer-right">
+      <div class="devices-counter">
+        <i class="fas fa-microchip"></i>
+        <span>Sistema em operação contínua</span>
+      </div>
+      <div class="build-info">
+        Angular 18 + Material Design
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,294 @@
+// ==================================================
+// DASHBOARD CARD - DESIGN MODERNO IoT
+// ==================================================
+
+.dashboard-card {
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  border-radius: 16px;
+  padding: 24px;
+  margin: 16px 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  // Gradient de fundo baseado na cor
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--card-accent-color);
+  }
+}
+
+// ==================================================
+// CORES DOS CARDS
+// ==================================================
+
+.card-primary {
+  --card-accent-color: #007bff;
+  --card-icon-bg: rgba(0, 123, 255, 0.1);
+  --card-icon-color: #007bff;
+}
+
+.card-success {
+  --card-accent-color: #28a745;
+  --card-icon-bg: rgba(40, 167, 69, 0.1);
+  --card-icon-color: #28a745;
+}
+
+.card-warning {
+  --card-accent-color: #ffc107;
+  --card-icon-bg: rgba(255, 193, 7, 0.1);
+  --card-icon-color: #ffc107;
+}
+
+.card-danger {
+  --card-accent-color: #dc3545;
+  --card-icon-bg: rgba(220, 53, 69, 0.1);
+  --card-icon-color: #dc3545;
+}
+
+.card-info {
+  --card-accent-color: #17a2b8;
+  --card-icon-bg: rgba(23, 162, 184, 0.1);
+  --card-icon-color: #17a2b8;
+}
+
+// ==================================================
+// HEADER DO CARD
+// ==================================================
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: var(--card-icon-bg);
+  margin-right: 16px;
+  transition: all 0.3s ease;
+
+  i {
+    font-size: 24px;
+    color: var(--card-icon-color);
+  }
+}
+
+.card-info {
+  flex: 1;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+.card-subtitle {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0;
+  font-weight: 400;
+}
+
+// ==================================================
+// VALOR PRINCIPAL
+// ==================================================
+
+.card-value {
+  margin-bottom: 16px;
+}
+
+.value-number {
+  font-size: 36px;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1;
+  display: block;
+}
+
+// ==================================================
+// TREND/TENDÊNCIA
+// ==================================================
+
+.card-trend {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid #e9ecef;
+}
+
+.trend-container {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+
+  &.trend-up {
+    color: #28a745;
+  }
+
+  &.trend-down {
+    color: #dc3545;
+  }
+
+  &.trend-stable {
+    color: #6c757d;
+  }
+}
+
+.trend-icon {
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+.trend-percentage {
+  font-weight: 700;
+}
+
+.trend-description {
+  font-size: 12px;
+  color: #6c757d;
+  margin: 0;
+  text-align: right;
+  flex: 1;
+  margin-left: 16px;
+}
+
+// ==================================================
+// LOADING SKELETON
+// ==================================================
+
+.card-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+}
+
+.loading-skeleton {
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// ==================================================
+// RESPONSIVIDADE
+// ==================================================
+
+@media (max-width: 768px) {
+  .dashboard-card {
+    padding: 20px;
+    margin: 12px 0;
+  }
+
+  .card-header {
+    margin-bottom: 16px;
+  }
+
+  .card-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 12px;
+
+    i {
+      font-size: 20px;
+    }
+  }
+
+  .card-title {
+    font-size: 14px;
+  }
+
+  .card-subtitle {
+    font-size: 12px;
+  }
+
+  .value-number {
+    font-size: 28px;
+  }
+
+  .card-trend {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .trend-description {
+    text-align: left;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-card {
+    padding: 16px;
+  }
+
+  .value-number {
+    font-size: 24px;
+  }
+}
+
+// ==================================================
+// ANIMAÇÕES ESPECIAIS
+// ==================================================
+
+.dashboard-card {
+  &:hover .card-icon {
+    transform: scale(1.1);
+    background: var(--card-icon-color);
+
+    i {
+      color: white;
+    }
+  }
+}
+
+// Animação de entrada
+.dashboard-card {
+  animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

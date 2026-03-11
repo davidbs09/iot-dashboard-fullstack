@@ -1,0 +1,547 @@
+// Estilos para o formulário de dispositivos - Tema Claro
+// Seguindo o design da tela principal
+
+// Container principal com tema claro forçado
+.device-form-light-theme {
+  background-color: white !important;
+  color: #495057 !important;
+  min-height: 100%;
+  width: 100%;
+  padding: 0; // Remove padding do container principal para evitar duplicação
+}
+
+// Forçar tema claro no modal
+:host ::ng-deep .mat-mdc-dialog-container {
+  background-color: white !important;
+  color: #495057 !important;
+}
+
+:host ::ng-deep .mat-mdc-dialog-surface {
+  background-color: white !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+}
+
+// Header do modal
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px 20px 32px; // Aumentado padding horizontal
+  background: white;
+  border-bottom: 1px solid #e9ecef;
+  margin: -24px -24px 0 -24px;
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #495057;
+
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+      color: #007bff;
+    }
+  }
+
+  .close-button {
+    color: #6c757d;
+
+    &:hover {
+      color: #495057;
+      background-color: #f8f9fa;
+    }
+  }
+}
+
+// Conteúdo do formulário
+.form-content {
+  padding: 32px; // Aumentado padding para dar mais espaço
+  max-height: 70vh;
+  overflow-y: auto;
+
+  // Scrollbar personalizada
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+
+    &:hover {
+      background: #a8a8a8;
+    }
+  }
+}
+
+// Seções do formulário
+.form-section {
+  margin-bottom: 40px; // Aumentado espaçamento entre seções
+  padding: 0 8px; // Pequeno padding interno
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px; // Aumentado espaçamento após header
+    padding-bottom: 16px; // Aumentado padding inferior
+    border-bottom: 2px solid #e9ecef;
+
+    .section-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      color: #007bff;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #495057;
+    }
+  }
+}
+
+// Grid do formulário
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px; // Aumentado gap entre campos
+  margin-bottom: 24px;
+  padding: 0 4px; // Pequeno padding para dar respiro
+
+  .form-field {
+    &.full-width {
+      grid-column: 1 / -1;
+    }
+
+    &.half-width {
+      min-width: 280px; // Ajustado largura mínima
+    }
+
+    // Espaçamento adicional para form fields
+    .mat-mdc-form-field {
+      margin-bottom: 8px; // Espaço entre fields
+    }
+  }
+}
+
+// Status indicator
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 20px; // Aumentado padding
+  border-radius: 8px;
+  font-weight: 500;
+  margin: 0 8px 24px 8px; // Margin horizontal para alinhamento
+  border: 1px solid;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &.active {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    border-color: rgba(40, 167, 69, 0.3);
+  }
+
+  &.inactive {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border-color: rgba(220, 53, 69, 0.3);
+  }
+
+  &.online {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    border-color: rgba(40, 167, 69, 0.3);
+  }
+
+  &.offline {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+    border-color: rgba(108, 117, 125, 0.3);
+  }
+
+  &.maintenance {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+    border-color: rgba(255, 193, 7, 0.3);
+  }
+}
+
+// Grid de informações (modo edição)
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px; // Aumentado gap
+  margin: 0 8px 24px 8px; // Margin horizontal para alinhamento
+  padding: 0 4px; // Pequeno padding interno
+
+  .info-item {
+    background: #f8f9fa;
+    padding: 20px; // Aumentado padding interno
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+    border: 1px solid #e9ecef;
+
+    .label {
+      font-size: 0.75rem;
+      color: #6c757d;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .value {
+      font-size: 1rem;
+      color: #495057;
+      font-weight: 600;
+    }
+  }
+}
+
+// Ações do formulário
+.form-actions {
+  display: flex;
+  gap: 16px; // Mantido gap entre botões
+  justify-content: flex-end;
+  padding: 24px 32px; // Aumentado padding horizontal para alinhar com header
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  margin: 24px -24px -24px -24px;
+
+  button {
+    min-width: 100px;
+    height: 40px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &.mat-primary {
+      background-color: #007bff;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background-color: #0056b3;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+      }
+    }
+
+    &.mat-stroked-button {
+      border: 1px solid #6c757d;
+      color: #6c757d;
+
+      &:hover:not(:disabled) {
+        background-color: #f8f9fa;
+        border-color: #495057;
+        color: #495057;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Customização do Angular Material - Forçar Tema Claro
+:host ::ng-deep {
+  // Dialog container
+  .mat-mdc-dialog-container {
+    background-color: white !important;
+    color: #495057 !important;
+  }
+
+  .mat-mdc-dialog-surface {
+    background-color: white !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  // Form fields
+  .mat-mdc-form-field {
+    width: 100%;
+    margin-bottom: 12px; // Espaçamento entre campos
+
+    .mat-mdc-text-field-wrapper {
+      background-color: white !important;
+      border-radius: 6px;
+      padding: 4px 8px; // Padding interno nos inputs
+    }
+
+    .mdc-floating-label {
+      color: #6c757d !important;
+    }
+
+    .mat-mdc-form-field-input-control {
+      color: #495057 !important;
+    }
+
+    .mdc-line-ripple::before,
+    .mdc-line-ripple::after {
+      border-bottom-color: #007bff !important;
+    }
+
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: #ced4da !important;
+    }
+
+    &.mat-focused {
+      .mdc-floating-label {
+        color: #007bff !important;
+      }
+
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: #007bff !important;
+        border-width: 2px !important;
+      }
+    }
+
+    .mat-mdc-form-field-error {
+      color: #dc3545 !important;
+    }
+
+    .mat-mdc-form-field-hint {
+      color: #6c757d !important;
+    }
+  }
+
+  // Select dropdown
+  .mat-mdc-select {
+    .mat-mdc-select-value {
+      color: #495057 !important;
+    }
+
+    .mat-mdc-select-arrow {
+      color: #6c757d !important;
+    }
+  }
+
+  .mat-mdc-select-panel {
+    background-color: white !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .mat-mdc-option {
+    color: #495057 !important;
+    background-color: white !important;
+
+    &:hover {
+      background-color: rgba(0, 123, 255, 0.1) !important;
+    }
+
+    &.mat-mdc-option-active {
+      background-color: rgba(0, 123, 255, 0.2) !important;
+      color: #007bff !important;
+    }
+
+    mat-icon {
+      color: #6c757d !important;
+    }
+  }
+
+  // Buttons
+  .mat-mdc-button {
+    color: #6c757d !important;
+
+    &.mat-primary {
+      background-color: #007bff !important;
+      color: white !important;
+    }
+
+    &.mat-stroked-button {
+      border-color: #6c757d !important;
+      color: #6c757d !important;
+    }
+  }
+
+  // Icons
+  .mat-icon {
+    color: inherit !important;
+  }
+
+  // Dialog title
+  .mat-mdc-dialog-title {
+    color: #495057 !important;
+  }
+
+  // Input elements
+  input {
+    color: #495057 !important;
+    background-color: transparent !important;
+  }
+}
+
+// Chips de status personalizados
+:host ::ng-deep .mat-mdc-chip {
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  &.status-chip {
+    &.online {
+      background-color: rgba(40, 167, 69, 0.1);
+      color: #28a745;
+    }
+
+    &.offline {
+      background-color: rgba(108, 117, 125, 0.1);
+      color: #6c757d;
+    }
+
+    &.maintenance {
+      background-color: rgba(255, 193, 7, 0.1);
+      color: #ffc107;
+    }
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .form-header {
+    padding: 20px 24px 16px 24px; // Padding reduzido no mobile
+
+    h2 {
+      font-size: 1.25rem;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  .form-content {
+    padding: 24px; // Padding reduzido no mobile
+  }
+
+  .form-section {
+    margin-bottom: 32px; // Espaçamento reduzido no mobile
+    padding: 0 4px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 20px; // Gap reduzido no mobile
+    padding: 0 2px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 24px; // Padding reduzido no mobile
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 16px; // Gap reduzido no mobile
+    margin: 0 4px 20px 4px;
+  }
+
+  .status-indicator {
+    margin: 0 4px 20px 4px; // Margin reduzida no mobile
+    padding: 14px 16px;
+  }
+
+  .section-header {
+    .section-title {
+      font-size: 1.1rem;
+    }
+
+    .section-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .form-header {
+    h2 {
+      font-size: 1.1rem;
+    }
+    padding: 16px 20px 12px 20px; // Padding ainda menor em mobile pequeno
+  }
+
+  .form-content {
+    padding: 20px; // Padding menor em mobile pequeno
+  }
+
+  .form-section {
+    margin-bottom: 28px; // Espaçamento menor em mobile pequeno
+    padding: 0 2px;
+  }
+
+  .section-header {
+    margin-bottom: 20px; // Espaçamento menor em mobile pequeno
+  }
+
+  .form-actions {
+    padding: 16px 20px; // Padding menor em mobile pequeno
+  }
+}
+
+// Melhorias de acessibilidade
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+// Loading states
+.mat-mdc-progress-spinner {
+  .mat-mdc-progress-spinner-circle {
+    stroke: #007bff;
+  }
+}
+
+// Validação visual
+.mat-mdc-form-field.ng-invalid.ng-touched {
+  .mat-mdc-text-field-wrapper {
+    border-color: #dc3545;
+  }
+}
+
+.mat-mdc-form-field.ng-valid.ng-touched {
+  .mat-mdc-text-field-wrapper {
+    border-color: #28a745;
+  }
+}

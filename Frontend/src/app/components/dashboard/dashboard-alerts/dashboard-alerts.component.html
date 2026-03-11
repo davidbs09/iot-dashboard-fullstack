@@ -1,0 +1,102 @@
+<!-- Container de Alertas -->
+<div class="alerts-container">
+  
+  <!-- Header -->
+  <div class="alerts-header">
+    <h4 class="alerts-title">
+      <i class="fas fa-bell"></i>
+      Alertas Ativos
+    </h4>
+    <span class="alerts-count" [ngClass]="getDisplayAlerts().length > 0 ? 'has-alerts' : ''">
+      {{ getDisplayAlerts().length }}
+    </span>
+  </div>
+
+  <!-- Lista de Alertas -->
+  <div class="alerts-list" *ngIf="getDisplayAlerts().length > 0; else noAlerts">
+    
+    <div class="alert-item" 
+         *ngFor="let alert of getDisplayAlerts(); trackBy: trackByAlertId"
+         [ngClass]="getSeverityClass(alert.severity)">
+      
+      <!-- Indicador de Severidade -->
+      <div class="alert-indicator"></div>
+      
+      <!-- Ícone do Tipo de Alerta -->
+      <div class="alert-icon">
+        <i [class]="getAlertIcon(alert.alertType)"></i>
+      </div>
+      
+      <!-- Conteúdo Principal -->
+      <div class="alert-content">
+        
+        <!-- Cabeçalho do Alerta -->
+        <div class="alert-header">
+          <h5 class="alert-device-name">{{ alert.deviceName }}</h5>
+          <span class="alert-time">{{ getTimeAgo(alert.timestamp) }}</span>
+        </div>
+        
+        <!-- Mensagem Principal -->
+        <p class="alert-message">{{ alert.message }}</p>
+        
+        <!-- Descrição Detalhada -->
+        <p class="alert-description" *ngIf="alert.description">
+          {{ alert.description }}
+        </p>
+        
+        <!-- Ação Recomendada -->
+        <div class="alert-action" *ngIf="alert.recommendedAction">
+          <strong>Ação recomendada:</strong> {{ alert.recommendedAction }}
+        </div>
+        
+        <!-- Duração do Problema -->
+        <div class="alert-duration" *ngIf="alert.durationMinutes">
+          <i class="fas fa-clock"></i>
+          {{ getDurationText(alert.durationMinutes) }}
+        </div>
+        
+      </div>
+      
+      <!-- Ações do Alerta -->
+      <div class="alert-actions">
+        
+        <!-- Botão Ver Dispositivo -->
+        <button class="btn-action btn-view" 
+                (click)="viewDeviceDetails(alert.deviceId)"
+                title="Ver dispositivo">
+          <i class="fas fa-eye"></i>
+        </button>
+        
+        <!-- Botão Reconhecer -->
+        <button class="btn-action btn-acknowledge" 
+                (click)="acknowledgeAlert(alert)"
+                title="Marcar como reconhecido">
+          <i class="fas fa-check"></i>
+        </button>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+
+  <!-- Estado sem alertas -->
+  <ng-template #noAlerts>
+    <div class="no-alerts">
+      <div class="no-alerts-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h5>Sistema Estável</h5>
+      <p>Nenhum alerta ativo no momento</p>
+    </div>
+  </ng-template>
+
+  <!-- Ver Todos os Alertas -->
+  <div class="alerts-footer" *ngIf="alerts.length > maxAlertsToShow">
+    <button class="btn-view-all">
+      Ver todos os {{ alerts.length }} alertas
+      <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
+
+</div>

@@ -1,0 +1,29 @@
+<!-- Aplicação Principal - Sistema de Gerenciamento IoT -->
+<div class="app-container">
+
+  <!-- Navegação Principal -->
+  <nav class="main-navigation">
+    <div class="nav-brand">
+      <i class="fas fa-microchip"></i>
+      <span>IoT Manager</span>
+    </div>
+
+    <div class="nav-links">
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/devices" routerLinkActive="active" class="nav-link">
+        <i class="fas fa-list"></i>
+        <span>Dispositivos</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Conteúdo Principal -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

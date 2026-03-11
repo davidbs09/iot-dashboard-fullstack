@@ -1,0 +1,194 @@
+<!-- Header com título e botão de novo dispositivo -->
+<div class="device-list-header">
+    <h1 class="page-title">
+        <mat-icon>devices</mat-icon>
+        Gerenciamento de Dispositivos IoT
+    </h1>
+
+    <button mat-raised-button color="primary" class="add-button" (click)="openCreateDialog()">
+        <mat-icon>add</mat-icon>
+        Novo Dispositivo
+    </button>
+</div>
+
+<!-- Filtros -->
+<mat-card class="filters-card">
+    <mat-card-header>
+        <mat-card-title>
+            <mat-icon>filter_list</mat-icon>
+            Filtros
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        <div class="filters-container">
+            <!-- Busca por texto -->
+            <mat-form-field appearance="outline" class="search-field">
+                <mat-label>Buscar por nome ou localização</mat-label>
+                <input matInput [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()"
+                    placeholder="Digite para buscar...">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+
+            <!-- Filtro por tipo -->
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo de Dispositivo</mat-label>
+                <mat-select [(value)]="selectedType" (selectionChange)="applyFilters()">
+                    <mat-option value="">Todos os tipos</mat-option>
+                    <mat-option *ngFor="let type of deviceTypes" [value]="type">
+                        {{ type }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Filtro por status -->
+            <mat-form-field appearance="outline">
+                <mat-label>Status</mat-label>
+                <mat-select [(value)]="selectedStatus" (selectionChange)="applyFilters()">
+                    <mat-option value="">Todos os status</mat-option>
+                    <mat-option *ngFor="let status of deviceStatuses" [value]="status">
+                        {{ status }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Botão limpar filtros -->
+            <button mat-stroked-button color="warn" (click)="clearFilters()" class="clear-filters-btn">
+                <mat-icon>clear</mat-icon>
+                Limpar Filtros
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<!-- Loading spinner -->
+<div *ngIf="isLoading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Carregando dispositivos...</p>
+</div>
+
+<!-- Tabela de dispositivos -->
+<mat-card class="table-card" *ngIf="!isLoading">
+    <mat-card-header>
+        <mat-card-title>
+            <mat-icon>list</mat-icon>
+            Lista de Dispositivos ({{ filteredDevices.length }})
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        <!-- Mensagem quando não há dispositivos -->
+        <div *ngIf="filteredDevices.length === 0" class="no-devices">
+            <mat-icon class="no-devices-icon">device_unknown</mat-icon>
+            <h3>Nenhum dispositivo encontrado</h3>
+            <p *ngIf="devices.length === 0">
+                Ainda não há dispositivos cadastrados.
+                <a (click)="openCreateDialog()" class="create-link">Clique aqui para criar o primeiro.</a>
+            </p>
+            <p *ngIf="devices.length > 0">
+                Nenhum dispositivo corresponde aos filtros aplicados.
+                <a (click)="clearFilters()" class="clear-link">Limpar filtros</a>
+            </p>
+        </div>
+
+        <!-- Tabela principal -->
+        <div class="table-container" *ngIf="filteredDevices.length > 0">
+            <table mat-table [dataSource]="dataSource" class="devices-table">
+
+                <!-- Coluna ID -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>ID</th>
+                    <td mat-cell *matCellDef="let device">#{{ device.id }}</td>
+                </ng-container>
+
+                <!-- Coluna Nome -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Nome</th>
+                    <td mat-cell *matCellDef="let device">
+                        <div class="device-name">
+                            <strong>{{ device.deviceName }}</strong>
+                            <small>{{ device.deviceIdentifier }}</small>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Coluna Tipo -->
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef>Tipo</th>
+                    <td mat-cell *matCellDef="let device">
+                        <mat-chip [class]="'type-' + device.deviceType.toLowerCase()">
+                            {{ device.deviceType }}
+                        </mat-chip>
+                    </td>
+                </ng-container>
+
+                <!-- Coluna Status -->
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>Status</th>
+                    <td mat-cell *matCellDef="let device">
+                        <mat-chip [class]="getStatusClass(device.status)">
+                            {{ device.status }}
+                        </mat-chip>
+                    </td>
+                </ng-container>
+
+                <!-- Coluna Localização -->
+                <ng-container matColumnDef="location">
+                    <th mat-header-cell *matHeaderCellDef>Localização</th>
+                    <td mat-cell *matCellDef="let device">
+                        <div class="location-info">
+                            <mat-icon class="location-icon">location_on</mat-icon>
+                            {{ device.location }}
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Coluna Online/Offline -->
+                <ng-container matColumnDef="isOnline">
+                    <th mat-header-cell *matHeaderCellDef>Conexão</th>
+                    <td mat-cell *matCellDef="let device">
+                        <div [class]="'connection-status ' + getOnlineClass(device.isActive)">
+                            <mat-icon>{{ device.isActive ? 'wifi' : 'wifi_off' }}</mat-icon>
+                            <span>{{ device.isActive ? 'Online' : 'Offline' }}</span>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Coluna Última Comunicação -->
+                <ng-container matColumnDef="lastCommunication">
+                    <th mat-header-cell *matHeaderCellDef>Última Comunicação</th>
+                    <td mat-cell *matCellDef="let device">
+                        <div class="last-communication">
+                            <mat-icon>schedule</mat-icon>
+                            <span>{{ formatDate(device.lastCommunication) }}</span>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Coluna Ações -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Ações</th>
+                    <td mat-cell *matCellDef="let device">
+                        <div class="actions-container">
+                            <!-- Botão Editar -->
+                            <button mat-icon-button color="primary" matTooltip="Editar dispositivo"
+                                (click)="openEditDialog(device)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+
+                            <!-- Botão Excluir -->
+                            <button mat-icon-button color="warn" matTooltip="Excluir dispositivo"
+                                (click)="deleteDevice(device)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Header e Rows da tabela -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="device-row"></tr>
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>

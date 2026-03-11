@@ -1,0 +1,134 @@
+<!-- Dashboard IoT - Página Principal -->
+<div class="dashboard-page">
+
+  <!-- Header do Dashboard -->
+  <div class="dashboard-header">
+    <div class="header-left">
+      <h1 class="dashboard-title">
+        <i class="fas fa-tachometer-alt"></i>
+        Dashboard IoT
+      </h1>
+      <p class="dashboard-subtitle">Monitoramento em tempo real dos dispositivos IoT</p>
+    </div>
+
+    <div class="header-right">
+      <!-- Status do Sistema -->
+      <div class="system-status" *ngIf="(data$ | async)?.stats as stats"
+        [ngClass]="getSystemStatusClass(stats.systemStatus)">
+        <i class="status-icon fas fa-circle"></i>
+        <span>{{ getSystemStatusText(stats.systemStatus) }}</span>
+      </div>
+      
+      <!-- Indicador de Auto-refresh -->
+      <div class="auto-refresh-status" *ngIf="(dashboardState$ | async) as state">
+        <div class="refresh-indicator" *ngIf="state.autoRefresh">
+          <i class="fas fa-sync-alt" [class.fa-spin]="state.isLoading"></i>
+          <span class="refresh-text">Auto</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Geral -->
+  <div class="dashboard-loading" *ngIf="(dashboardState$ | async)?.isLoading && loadingStates.dashboard">
+    <div class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i>
+    </div>
+    <p>Carregando dashboard...</p>
+  </div>
+
+  <!-- Conteúdo Principal -->
+  <div class="dashboard-content" *ngIf="data$ | async as data; else loadingTemplate">
+
+    <!-- Cards de Estatísticas -->
+    <section class="stats-section">
+      <h2 class="section-title">Métricas Principais</h2>
+
+      <div class="stats-grid">
+        <div class="stat-card" *ngFor="let card of data.cards; trackBy: trackByCardTitle">
+          <app-dashboard-card [card]="card"></app-dashboard-card>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gráficos -->
+    <section class="charts-section">
+      <div class="charts-grid">
+
+        <!-- Gráfico de Status -->
+        <div class="chart-container">
+          <app-dashboard-chart [chartData]="data.statusChart" [title]="'Distribuição por Status'"
+            [chartType]="'doughnut'" [height]="300">
+          </app-dashboard-chart>
+        </div>
+
+        <!-- Gráfico de Tipos -->
+        <div class="chart-container">
+          <app-dashboard-chart [chartData]="data.typeChart" [title]="'Distribuição por Tipo'" [chartType]="'doughnut'"
+            [height]="300">
+          </app-dashboard-chart>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Alertas do Sistema -->
+    <section class="alerts-section">
+      <div class="alerts-container">
+        <app-dashboard-alerts [alerts]="data.alerts" [maxAlertsToShow]="5">
+        </app-dashboard-alerts>
+      </div>
+    </section>
+
+    <!-- Footer Elegante -->
+    <footer class="dashboard-footer">
+      <div class="footer-content">
+        <div class="footer-left">
+          <div class="company-info">
+            <i class="fas fa-microchip"></i>
+            <span>Dashboard IoT</span>
+          </div>
+          <div class="tech-info">
+            Conectividade e Monitoramento em Tempo Real
+          </div>
+        </div>
+
+        <div class="footer-right">
+          <div class="status-info" *ngIf="(dashboardState$ | async) as state">
+            <div class="auto-refresh-indicator" *ngIf="state.autoRefresh">
+              <i class="fas fa-sync-alt" [class.fa-spin]="state.isLoading"></i>
+              <span>Atualização automática</span>
+            </div>
+            <div class="last-update">
+              Última atualização: {{ formatLastUpdate(state.lastUpdate) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Template de Loading -->
+  <ng-template #loadingTemplate>
+    <div class="dashboard-skeleton">
+
+      <!-- Skeleton Cards -->
+      <div class="skeleton-section">
+        <div class="skeleton-grid">
+          <div class="skeleton-card" *ngFor="let item of [1,2,3,4,5,6]"></div>
+        </div>
+      </div>
+
+      <!-- Skeleton Charts -->
+      <div class="skeleton-section">
+        <div class="skeleton-charts">
+          <div class="skeleton-chart"></div>
+          <div class="skeleton-chart"></div>
+        </div>
+      </div>
+
+    </div>
+  </ng-template>
+
+</div>

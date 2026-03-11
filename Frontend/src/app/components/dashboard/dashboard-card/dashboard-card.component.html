@@ -1,0 +1,38 @@
+<!-- Card de Estatística com Design Moderno -->
+<div class="dashboard-card" [ngClass]="'card-' + card.color">
+
+  <!-- Header do Card -->
+  <div class="card-header">
+    <div class="card-icon">
+      <i [class]="card.icon"></i>
+    </div>
+    <div class="card-info">
+      <h3 class="card-title">{{ card.title }}</h3>
+      <p class="card-subtitle" *ngIf="card.subtitle">{{ card.subtitle }}</p>
+    </div>
+  </div>
+
+  <!-- Valor Principal -->
+  <div class="card-value">
+    <span class="value-number">{{ card.value }}</span>
+  </div>
+
+  <!-- Trend/Tendência (se disponível) -->
+  <div class="card-trend" *ngIf="card.trend">
+    <div class="trend-container" [ngClass]="'trend-' + card.trend.direction">
+      <i class="trend-icon" [ngClass]="{
+            'fas fa-arrow-up': card.trend.direction === 'up',
+            'fas fa-arrow-down': card.trend.direction === 'down',
+            'fas fa-minus': card.trend.direction === 'stable'
+          }"></i>
+      <span class="trend-percentage">{{ card.trend.percentage.toFixed(1) }}%</span>
+    </div>
+    <p class="trend-description">{{ card.trend.description }}</p>
+  </div>
+
+  <!-- Loading/Placeholder -->
+  <div class="card-loading" *ngIf="!card">
+    <div class="loading-skeleton"></div>
+  </div>
+
+</div>

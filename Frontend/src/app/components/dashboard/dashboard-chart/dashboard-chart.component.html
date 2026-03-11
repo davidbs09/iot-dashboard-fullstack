@@ -1,0 +1,30 @@
+<!-- Container do Gráfico com Design Moderno -->
+<div class="chart-container">
+  
+  <!-- Título do Gráfico -->
+  <div class="chart-header" *ngIf="title">
+    <h4 class="chart-title">{{ title }}</h4>
+  </div>
+
+  <!-- Canvas do Chart.js -->
+  <div class="chart-wrapper" [style.height.px]="height">
+    <canvas #chartCanvas class="chart-canvas"></canvas>
+  </div>
+
+  <!-- Loading State -->
+  <div class="chart-loading" *ngIf="!chartData">
+    <div class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i>
+    </div>
+    <p>Carregando gráfico...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div class="chart-empty" *ngIf="chartData && chartData.datasets[0].data.length === 0">
+    <div class="empty-icon">
+      <i class="fas fa-chart-pie"></i>
+    </div>
+    <p>Nenhum dado disponível</p>
+  </div>
+
+</div>

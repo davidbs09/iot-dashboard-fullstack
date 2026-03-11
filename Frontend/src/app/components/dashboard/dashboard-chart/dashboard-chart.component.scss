@@ -1,0 +1,220 @@
+// ==================================================
+// DASHBOARD CHART - GRÁFICOS MODERNOS
+// ==================================================
+
+.chart-container {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+  height: 100%;
+
+  &:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// ==================================================
+// HEADER DO GRÁFICO
+// ==================================================
+
+.chart-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.chart-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e9ecef;
+  display: inline-block;
+}
+
+// ==================================================
+// WRAPPER DO CANVAS
+// ==================================================
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-canvas {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+// ==================================================
+// ESTADOS DE LOADING E EMPTY
+// ==================================================
+
+.chart-loading,
+.chart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: #6c757d;
+}
+
+.chart-loading {
+  .loading-spinner {
+    font-size: 32px;
+    margin-bottom: 16px;
+    color: #007bff;
+  }
+
+  p {
+    font-size: 14px;
+    margin: 0;
+  }
+}
+
+.chart-empty {
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: #dee2e6;
+  }
+
+  p {
+    font-size: 16px;
+    margin: 0;
+    font-weight: 500;
+  }
+}
+
+// ==================================================
+// ANIMAÇÕES
+// ==================================================
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.chart-container {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.loading-spinner i {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ==================================================
+// RESPONSIVIDADE
+// ==================================================
+
+@media (max-width: 768px) {
+  .chart-container {
+    padding: 16px;
+  }
+
+  .chart-title {
+    font-size: 16px;
+  }
+
+  .chart-wrapper {
+    height: 250px !important;
+  }
+
+  .chart-loading,
+  .chart-empty {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-container {
+    padding: 12px;
+  }
+
+  .chart-title {
+    font-size: 14px;
+  }
+
+  .chart-wrapper {
+    height: 200px !important;
+  }
+
+  .chart-loading,
+  .chart-empty {
+    height: 200px;
+
+    .empty-icon {
+      font-size: 36px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+}
+
+// ==================================================
+// CUSTOMIZAÇÕES PARA CHART.JS
+// ==================================================
+
+.chart-container {
+  // Garante que as legendas do Chart.js tenham espaçamento adequado
+  canvas {
+    margin-bottom: 0;
+  }
+
+  // Estilização das tooltips (aplicado via CSS global)
+  :global(.chartjs-tooltip) {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}
+
+// ==================================================
+// VARIAÇÕES DE TEMA (para futura implementação dark mode)
+// ==================================================
+
+.chart-container.dark-theme {
+  background: #2c3e50;
+  border-color: #34495e;
+
+  .chart-title {
+    color: #ecf0f1;
+    border-bottom-color: #34495e;
+  }
+
+  .chart-loading,
+  .chart-empty {
+    color: #bdc3c7;
+  }
+
+  .empty-icon {
+    color: #7f8c8d !important;
+  }
+}

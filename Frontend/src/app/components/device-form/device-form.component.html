@@ -1,0 +1,319 @@
+<!-- Container principal com tema claro -->
+<div class="device-form-light-theme">
+    <!-- Header do Modal -->
+    <div class="form-header">
+        <h2 mat-dialog-title>
+            <mat-icon>{{ isEditMode ? 'edit' : 'add_circle' }}</mat-icon>
+            {{ modalTitle }}
+        </h2>
+
+        <button mat-icon-button mat-dialog-close class="close-button" matTooltip="Fechar">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <!-- Formulário -->
+    <form [formGroup]="deviceForm" (ngSubmit)="onSubmit()" class="device-form">
+        <mat-dialog-content class="form-content">
+
+            <!-- Informações Básicas -->
+            <div class="form-section">
+                <div class="section-header">
+                    <mat-icon class="section-icon">info</mat-icon>
+                    <h3 class="section-title">Informações Básicas</h3>
+                </div>
+
+                <div class="form-grid">
+                    <!-- Nome do Dispositivo -->
+                    <div class="form-field full-width">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nome do Dispositivo</mat-label>
+                            <input matInput formControlName="deviceName"
+                                placeholder="Ex: Sensor de Temperatura - Sala A1" maxlength="100">
+                            <mat-icon matSuffix>device_hub</mat-icon>
+                            <mat-hint>Nome identificador único do dispositivo</mat-hint>
+                            <mat-error *ngIf="hasError('deviceName', 'required')">
+                                {{ getErrorMessage('deviceName') }}
+                            </mat-error>
+                            <mat-error
+                                *ngIf="hasError('deviceName', 'minlength') || hasError('deviceName', 'maxlength')">
+                                {{ getErrorMessage('deviceName') }}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Tipo do Dispositivo -->
+                    <div class="form-field half-width">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Tipo do Dispositivo</mat-label>
+                            <mat-select formControlName="deviceType">
+                                <mat-option *ngFor="let type of deviceTypes" [value]="type">
+                                    <mat-icon>sensors</mat-icon>
+                                    {{ getDeviceTypeDisplay(type) }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix>category</mat-icon>
+                            <mat-error *ngIf="hasError('deviceType', 'required')">
+                                {{ getErrorMessage('deviceType') }}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="form-field half-width">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Status</mat-label>
+                            <mat-select formControlName="status">
+                                <mat-option *ngFor="let status of deviceStatuses" [value]="status">
+                                    <mat-icon [class]="'status-' + status.toLowerCase()">
+                                        {{ getStatusIcon(status) }}
+                                    </mat-icon>
+                                    {{ getStatusDisplay(status) }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix>signal_cellular_alt</mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Localização -->
+                    <div class="form-field full-width">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Localização</mat-label>
+                            <input matInput formControlName="location" placeholder="Ex: Galpão A - Setor 2 - Andar 1"
+                                maxlength="200">
+                            <mat-icon matSuffix>location_on</mat-icon>
+                            <mat-hint>Localização física do dispositivo</mat-hint>
+                            <mat-error *ngIf="hasError('location', 'required')">
+                                {{ getErrorMessage('location') }}
+                            </mat-error>
+                            <mat-error *ngIf="hasError('location', 'minlength') || hasError('location', 'maxlength')">
+                                {{ getErrorMessage('location') }}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informações Técnicas -->
+            <div class="form-section">
+                <div class="section-header">
+                    <mat-icon class="section-icon">settings</mat-icon>
+                    <h3 class="section-title">Configurações Técnicas</h3>
+                </div>
+
+                <div class="form-grid">
+                    <!-- Identificador do Dispositivo -->
+                    <div class="form-field with-button">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Identificador do Dispositivo</mat-label>
+                            <input matInput formControlName="deviceIdentifier" placeholder="Ex: IOT-123456-ABC"
+                                style="text-transform: uppercase;">
+                            <mat-icon matSuffix>qr_code</mat-icon>
+                            <mat-hint>Formato: XXX-XXXXXX-XXX</mat-hint>
+                            <mat-error *ngIf="hasError('deviceIdentifier', 'required')">
+                                {{ getErrorMessage('deviceIdentifier') }}
+                            </mat-error>
+                            <mat-error *ngIf="hasError('deviceIdentifier', 'pattern')">
+                                {{ getErrorMessage('deviceIdentifier') }}
+                            </mat-error>
+                        </mat-form-field>
+
+                        <button type="button" mat-raised-button color="accent" class="generate-button"
+                            matTooltip="Gerar identificador automaticamente" (click)="generateSerialNumber()">
+                            <mat-icon>auto_fix_high</mat-icon>
+                            Gerar
+                        </button>
+                    </div>
+
+                    <!-- Status Ativo/Inativo -->
+                    <div class="form-field half-width">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Dispositivo Ativo</mat-label>
+                            <mat-select formControlName="isActive">
+                                <mat-option [value]="true">
+                                    <mat-icon class="status-active">wifi</mat-icon>
+                                    Ativo (Online)
+                                </mat-option>
+                                <mat-option [value]="false">
+                                    <mat-icon class="status-inactive">wifi_off</mat-icon>
+                                    Inativo (Offline)
+                                </mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix>power_settings_new</mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Última Leitura -->
+                    <div class="form-field half-width">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Última Leitura</mat-label>
+                            <input matInput formControlName="lastReading" placeholder="Ex: 23.5°C, 65%UR">
+                            <mat-icon matSuffix>trending_up</mat-icon>
+                            <mat-hint>Último valor lido pelo sensor</mat-hint>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Descrição -->
+                    <div class="form-field full-width">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Descrição</mat-label>
+                            <textarea matInput formControlName="description"
+                                placeholder="Descrição detalhada do dispositivo, função, características técnicas..."
+                                rows="3" maxlength="500">
+                        </textarea>
+                            <mat-icon matSuffix>description</mat-icon>
+                            <mat-hint>Informações adicionais sobre o dispositivo</mat-hint>
+                            <mat-error *ngIf="hasError('description', 'maxlength')">
+                                {{ getErrorMessage('description') }}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Localização Geográfica -->
+            <div class="form-section">
+                <div class="section-header">
+                    <mat-icon class="section-icon">place</mat-icon>
+                    <h3 class="section-title">Coordenadas Geográficas</h3>
+                </div>
+
+                <div class="form-grid">
+                    <!-- Latitude -->
+                    <div class="form-field half-width">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Latitude</mat-label>
+                            <input matInput type="number" formControlName="latitude" placeholder="-23.5505"
+                                step="0.000001" min="-90" max="90">
+                            <mat-icon matSuffix>south</mat-icon>
+                            <mat-hint>Entre -90 e 90 graus</mat-hint>
+                            <mat-error *ngIf="hasError('latitude', 'min') || hasError('latitude', 'max')">
+                                Latitude deve estar entre -90 e 90 graus
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Longitude -->
+                    <div class="form-field half-width">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Longitude</mat-label>
+                            <input matInput type="number" formControlName="longitude" placeholder="-46.6333"
+                                step="0.000001" min="-180" max="180">
+                            <mat-icon matSuffix>east</mat-icon>
+                            <mat-hint>Entre -180 e 180 graus</mat-hint>
+                            <mat-error *ngIf="hasError('longitude', 'min') || hasError('longitude', 'max')">
+                                Longitude deve estar entre -180 e 180 graus
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Sugestão de localização -->
+                    <div class="form-field full-width">
+                        <div class="location-hint">
+                            <mat-icon>info</mat-icon>
+                            <span>
+                                <strong>Dica:</strong> Use o Google Maps para obter coordenadas precisas.
+                                Clique com o botão direito no local desejado e selecione as coordenadas.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumo (apenas para edição) -->
+            <div class="form-section" *ngIf="isEditMode && data.device">
+                <div class="section-header">
+                    <mat-icon class="section-icon">summarize</mat-icon>
+                    <h3 class="section-title">Informações do Sistema</h3>
+                </div>
+
+                <div class="system-info-grid">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <mat-icon>tag</mat-icon>
+                        </div>
+                        <div class="info-content">
+                            <span class="info-label">ID do Sistema</span>
+                            <span class="info-value">#{{ data.device.id }}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <mat-icon>schedule</mat-icon>
+                        </div>
+                        <div class="info-content">
+                            <span class="info-label">Criado em</span>
+                            <span class="info-value">{{ formatDate(data.device.createdAt) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <mat-icon>update</mat-icon>
+                        </div>
+                        <div class="info-content">
+                            <span class="info-label">Última atualização</span>
+                            <span class="info-value">{{ formatDate(data.device.updatedAt) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-card" *ngIf="data.device.lastCommunication">
+                        <div class="info-icon">
+                            <mat-icon>wifi</mat-icon>
+                        </div>
+                        <div class="info-content">
+                            <span class="info-label">Última comunicação</span>
+                            <span class="info-value">{{ formatDate(data.device.lastCommunication) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <mat-icon [class]="data.device.isActive ? 'status-online' : 'status-offline'">
+                                {{ data.device.isActive ? 'wifi' : 'wifi_off' }}
+                            </mat-icon>
+                        </div>
+                        <div class="info-content">
+                            <span class="info-label">Status de conexão</span>
+                            <span class="info-value"
+                                [class]="data.device.isActive ? 'status-online' : 'status-offline'">
+                                {{ data.device.isActive ? 'Online' : 'Offline' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </mat-dialog-content>
+
+        <!-- Ações do Modal -->
+        <mat-dialog-actions class="form-actions">
+            <div class="actions-container">
+                <!-- Botão Cancelar -->
+                <button type="button" mat-stroked-button class="cancel-button" (click)="onCancel()"
+                    [disabled]="isLoading">
+                    <mat-icon>cancel</mat-icon>
+                    Cancelar
+                </button>
+
+                <!-- Botão Salvar -->
+                <button type="submit" mat-raised-button color="primary" class="submit-button"
+                    [disabled]="deviceForm.invalid || isLoading">
+
+                    <!-- Loading spinner -->
+                    <div class="button-content" *ngIf="isLoading">
+                        <mat-spinner diameter="16"></mat-spinner>
+                        <span>Processando...</span>
+                    </div>
+
+                    <!-- Conteúdo normal -->
+                    <div class="button-content" *ngIf="!isLoading">
+                        <mat-icon>{{ isEditMode ? 'save' : 'add_circle' }}</mat-icon>
+                        <span>{{ submitButtonText }}</span>
+                    </div>
+                </button>
+            </div>
+        </mat-dialog-actions>
+    </form>
+</div> <!-- Fim do container device-form-light-theme -->
